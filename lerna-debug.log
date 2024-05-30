@@ -1,0 +1,18 @@
+0 silly argv {
+0 silly argv   _: [ 'run' ],
+0 silly argv   scope: 'frontend',
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': '/Users/paco/Desktop/Proyectos/monorepo-php/node_modules/.bin/lerna',
+0 silly argv   script: 'start'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath /Users/paco/Desktop/Proyectos/monorepo-php
+3 notice filter including "frontend"
+4 info filter [ 'frontend' ]
+5 error TypeError: Cannot read properties of undefined (reading 'split')
+5 error     at Minimatch.match (/Users/paco/Desktop/Proyectos/monorepo-php/node_modules/minimatch/minimatch.js:743:9)
+5 error     at /Users/paco/Desktop/Proyectos/monorepo-php/node_modules/minimatch/minimatch.js:717:15
+5 error     at Array.filter (<anonymous>)
+5 error     at minimatch.match (/Users/paco/Desktop/Proyectos/monorepo-php/node_modules/minimatch/minimatch.js:716:15)
+5 error     at module.exports (/Users/paco/Desktop/Proyectos/monorepo-php/node_modules/multimatch/index.js:25:39)
+5 error     at filterPackages (/Users/paco/Desktop/Proyectos/monorepo-php/node_modules/@lerna/filter-packages/filter-packages.js:44:28)
