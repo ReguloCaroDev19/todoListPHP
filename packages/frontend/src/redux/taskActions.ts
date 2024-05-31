@@ -37,7 +37,7 @@ export const addTask = createAsyncThunk(
 
 export const deleteTask = createAsyncThunk(
   "tasks/deleteTask",
-  async (taskId: number) => {
+  async (taskId: string) => {
     await axios.delete(`http://127.0.0.1:8000/tasks/${taskId}`);
     return taskId;
   }
@@ -45,10 +45,20 @@ export const deleteTask = createAsyncThunk(
 
 export const toggleTask = createAsyncThunk(
   "tasks/toggleTask",
-  async (taskId: number) => {
+  async (taskId: string) => {
     const response = await axios.put<Task>(
-      `http://127.0.0.1:8000/tasks/${taskId}`,
+      `http://127.0.0.1:8000/tasks/${taskId}/update-completed`,
       { completed: true }
+    );
+    return response.data;
+  }
+);
+export const updateTask = createAsyncThunk(
+  "tasks/updateTask", 
+  async ({ task, titulo }: { task: Task; titulo: string }) => {
+    const response = await axios.put<Task>(
+      `http://127.0.0.1:8000/tasks/${task.id}/update-title`,
+      { titulo }
     );
     return response.data;
   }

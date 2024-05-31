@@ -7,8 +7,8 @@ const TaskForm: React.FC = () => {
   const [input, setInput] = useState<string>("");
   const dispatch: AppDispatch = useDispatch();
   const taskStatus = useSelector((state: RootState) => state.tasks.status);
-  const [theme] = useState<string>(
-    localStorage.getItem("savedTheme") || "standard"
+  const [theme, setTheme] = useState<string>(
+    localStorage.getItem("savedTheme") || "light"
   );
 
   const handleAddTodo = async (e: FormEvent) => {
@@ -36,7 +36,21 @@ const TaskForm: React.FC = () => {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
-
+   useEffect(() => {
+     const savedTheme = localStorage.getItem("savedTheme");
+     if (savedTheme) {
+       setTheme(savedTheme);
+     }
+     const handleStorageChange = (event: StorageEvent) => {
+       if (event.key === "savedTheme") {
+         setTheme(event.newValue || "light");
+       }
+     };
+     window.addEventListener("storage", handleStorageChange);
+     return () => {
+       window.removeEventListener("storage", handleStorageChange);
+     };
+   }, [localStorage.getItem("savedTheme")]);
   return (
     <form onSubmit={handleAddTodo} className="mb-4 flex justify-center">
       <input
