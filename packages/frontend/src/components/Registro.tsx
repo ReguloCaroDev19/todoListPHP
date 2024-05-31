@@ -12,12 +12,16 @@ const Registro: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+	console.log(password.length);
 
-    if (password !== confirmPassword) {
-      setError("Las contraseñas no coinciden.");
-      return;
-    }
-
+  if (password !== confirmPassword) {
+    setError("Las contraseñas no coinciden.");
+    return;
+  }
+  if (password.length < 6 || password.length > 20) {
+    setError("Digita una contraseña mayor a 6 caracteres y menor a 20 ");
+    return;
+  }
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/auth/register",
