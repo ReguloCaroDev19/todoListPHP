@@ -79,12 +79,7 @@ const TaskForm: React.FC = () => {
           className="p-2 border rounded-l"
           transition={{ duration: 0.3 }}
         />
-        <button
-          type="submit"
-          className={`p-2 border rounded-r ${
-            theme === "darker" ? "text-white" : "text-black"
-          }`}
-        >
+        <button type="submit" className={`p-2 border rounded-r light-button`}>
           Agregar
         </button>
       </motion.form>

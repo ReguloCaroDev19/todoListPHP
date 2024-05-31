@@ -4,7 +4,7 @@ import TaskList from "./TaskList";
 
 const ToDoApp = () => {
   const [theme, setTheme] = useState(
-    localStorage.getItem("savedTheme") || "standard"
+    localStorage.getItem("savedTheme") || "light"
   );
 
   const changeTheme = (newTheme:any) => {

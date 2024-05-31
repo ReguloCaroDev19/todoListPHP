@@ -22,7 +22,7 @@ const Registro: React.FC = () => {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/auth/register",
         {
-		  name,
+          name,
           email,
           password,
           password_confirmation: confirmPassword,
@@ -31,15 +31,8 @@ const Registro: React.FC = () => {
       const token = response.data.access_token;
       localStorage.setItem("token", token);
       navigate("/home");
-    } catch (error:any) {
-		console.log(error);
-		
-	if (error.response.data?.password[0]?.length > 0) {
-      setError("La contraseña debe tener mínimo 6 caracteres");
-    }else{
- 		setError("Error al crear la cuenta. Por favor, inténtalo de nuevo.");
-	}
-     
+    } catch (error: any) {
+      setError("Error al crear la cuenta. Por favor, inténtalo de nuevo.");
     }
   };
 
