@@ -32,6 +32,8 @@ const Registro: React.FC = () => {
       localStorage.setItem("token", token);
       navigate("/home");
     } catch (error:any) {
+		console.log(error);
+		
 	if (error.response.data?.password[0]?.length > 0) {
       setError("La contraseña debe tener mínimo 6 caracteres");
     }else{

@@ -7,7 +7,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "start:frontend": "lerna run start --scope frontend",
-    "start:backend": "cd packages/backend && php artisan serve",
+    "start:backend": "cd packages/backend && composer install && php artisan jwt:secret && php artisan migrate --no-interaction --force  && php artisan serve",
     "start": "npm-run-all --parallel start:frontend start:backend"
   },
   "devDependencies": {
