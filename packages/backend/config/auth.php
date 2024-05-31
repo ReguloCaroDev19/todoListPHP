@@ -1,19 +1,18 @@
 <?php
 
 return [
-	
-'defaults' => [
-    'guard' => 'api',
-    'passwords' => 'users',
-],
 
-'guards' => [
-    'api' => [
-        'driver' => 'jwt',
-        'provider' => 'users',
+    'defaults' => [
+        'guard' => 'api',
+        'passwords' => 'users',
     ],
-],
 
+    'guards' => [
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
+    ],
 
     'providers' => [
         'users' => [
@@ -21,7 +20,6 @@ return [
             'model' => App\Models\User::class,
         ],
     ],
-
 
     'passwords' => [
         'users' => [

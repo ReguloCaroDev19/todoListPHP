@@ -1,4 +1,3 @@
-// src/components/ToDoApp.js
 import React, { useState } from "react";
 import TaskForm from "./TaskForm";
 import TaskList from "./TaskList";

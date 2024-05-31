@@ -45,7 +45,6 @@ class AuthController extends Controller
     }
 
 
-    // Método para responder con el token
     protected function respondWithToken($token)
     {
         return response()->json([
@@ -53,5 +52,20 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
+    }
+	 protected function redirectTo($request)
+    {
+        if (! $request->expectsJson()) {
+            return route('login');
+        }
+    }
+
+    public function handle($request, Closure $next, ...$guards)
+    {
+        if ($this->authenticate($request, $guards) === false) {
+            return response()->json(['error' => 'No estás autenticado. Por favor, inicia sesión.'], 401);
+        }
+
+        return $next($request);
     }
 }

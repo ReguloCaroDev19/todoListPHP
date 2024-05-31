@@ -1,10 +1,12 @@
 import React, { useState, FormEvent, ChangeEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion";
 import { AppDispatch, RootState } from "../redux/store";
 import { addTask, fetchTasks } from "../redux/taskActions";
 
 const TaskForm: React.FC = () => {
   const [input, setInput] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
   const dispatch: AppDispatch = useDispatch();
   const taskStatus = useSelector((state: RootState) => state.tasks.status);
   const [theme, setTheme] = useState<string>(
@@ -14,16 +16,24 @@ const TaskForm: React.FC = () => {
   const handleAddTodo = async (e: FormEvent) => {
     e.preventDefault();
     if (input.trim() === "") {
-      alert("Debes escribir algo!");
+      setError("Debes escribir algo!");
       return;
     }
-
+    if (input.trim() === "") {
+      setError("Debes escribir algo!");
+      return;
+    }
+    if (input.trim().length > 80) {
+      setError("El título no puede tener más de 80 caracteres.");
+      return;
+    }
     try {
-      await dispatch(addTask(input)); 
+      await dispatch(addTask(input));
       setInput("");
       dispatch(fetchTasks());
-    } catch (error) {
-      console.error("Error al agregar la tarea:", error);
+      setError(null);
+    } catch (error: any) {
+      setError("Error al agregar la tarea. Inténtalo de nuevo.");
     }
   };
 
@@ -36,38 +46,50 @@ const TaskForm: React.FC = () => {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
-   useEffect(() => {
-     const savedTheme = localStorage.getItem("savedTheme");
-     if (savedTheme) {
-       setTheme(savedTheme);
-     }
-     const handleStorageChange = (event: StorageEvent) => {
-       if (event.key === "savedTheme") {
-         setTheme(event.newValue || "light");
-       }
-     };
-     window.addEventListener("storage", handleStorageChange);
-     return () => {
-       window.removeEventListener("storage", handleStorageChange);
-     };
-   }, [localStorage.getItem("savedTheme")]);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("savedTheme");
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === "savedTheme") {
+        setTheme(event.newValue || "light");
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
   return (
-    <form onSubmit={handleAddTodo} className="mb-4 flex justify-center">
-      <input
-        type="text"
-        value={input}
-        onChange={handleInputChange}
-        className="p-2 border rounded-l"
-      />
-      <button
-        type="submit"
-        className={`p-2 border rounded-r ${
-          theme === "darker" ? "text-white" : "text-black"
-        }`}
+    <div>
+      <motion.form
+        onSubmit={handleAddTodo}
+        className="mb-4 flex justify-center"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
       >
-        Agregar
-      </button>
-    </form>
+        <motion.input
+          type="text"
+          value={input}
+          onChange={handleInputChange}
+          className="p-2 border rounded-l"
+          transition={{ duration: 0.3 }}
+        />
+        <button
+          type="submit"
+          className={`p-2 border rounded-r ${
+            theme === "darker" ? "text-white" : "text-black"
+          }`}
+        >
+          Agregar
+        </button>
+      </motion.form>
+      {error && <div className="text-red-500 mt-2">{error}</div>}
+    </div>
   );
 };
 

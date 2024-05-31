@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion";
 import {
   deleteTask,
   fetchTasks,
@@ -44,7 +45,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ todo }) => {
   const handleSaveEdit = async () => {
     await dispatch(updateTask({ task: todo, titulo: editedTitle }));
     setIsEditing(false);
-	await dispatch(fetchTasks());
+    await dispatch(fetchTasks());
   };
 
   useEffect(() => {
@@ -70,17 +71,20 @@ const TaskItem: React.FC<TaskItemProps> = ({ todo }) => {
   }, [localStorage.getItem("savedTheme")]);
 
   return (
-    <li
+    <motion.li
       className={`p-2 mb-2 border rounded flex justify-between items-center ${
         theme === "darker" ? "text-white" : "text-black"
       } ${todo.completed ? "completed" : ""}`}
+      initial={{ opacity: 1, scale: 1 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.5 } }}
     >
       {isEditing ? (
         <input
           type="text"
           value={editedTitle}
           onChange={(e) => setEditedTitle(e.target.value)}
-          className="px-2 py-1 border rounded"
+          className="px-2 py-1 border rounded text-black"
         />
       ) : (
         <span
@@ -93,36 +97,40 @@ const TaskItem: React.FC<TaskItemProps> = ({ todo }) => {
       )}
       <div>
         {isEditing ? (
-          <button
+          <motion.button
             onClick={handleSaveEdit}
-            className={`p-2 mx-1 border rounded light-button`}
+            className={`p-2 mx-1 border rounded light-button text-black`}
+            whileTap={{ scale: 0.9 }}
           >
             Guardar
-          </button>
+          </motion.button>
         ) : (
           <>
-            <button
+            <motion.button
               onClick={handleToggle}
               className={`p-2 mx-1 border rounded light-button`}
+              whileTap={{ scale: 0.9 }}
             >
               ✔
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               onClick={handleEdit}
-              className={`p-2 mx-1 border rounded light-button`}
+              className={`p-2 mx-1 border rounded light-button text-black`}
+              whileTap={{ scale: 0.9 }}
             >
               Editar
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               onClick={handleDelete}
               className={`p-2 mx-1 border rounded light-button`}
+              whileTap={{ scale: 0.9 }}
             >
               ✖
-            </button>
+            </motion.button>
           </>
         )}
       </div>
-    </li>
+    </motion.li>
   );
 };
 

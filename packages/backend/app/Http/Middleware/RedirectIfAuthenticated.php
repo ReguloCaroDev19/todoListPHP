@@ -15,16 +15,18 @@ class RedirectIfAuthenticated
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string ...$guards): Response
-    {
-        $guards = empty($guards) ? [null] : $guards;
-
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
-            }
+    public function handle($request, Closure $next, ...$guards)
+{
+    foreach ($guards as $guard) {
+        if (Auth::guard($guard)->check()) {
+            // Si el usuario está autenticado, simplemente continuar con la solicitud
+            return $next($request);
         }
-
-        return $next($request);
     }
+
+    // Si el usuario no está autenticado, no realizar ninguna redirección
+    // simplemente continuar con la solicitud y dejar que el middleware 'auth:api' maneje la autenticación
+    return $next($request);
+}
+
 }

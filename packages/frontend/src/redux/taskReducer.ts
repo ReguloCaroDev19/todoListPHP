@@ -40,7 +40,6 @@ const tasksSlice = createSlice({
 export const { fetchTasksLoading, fetchTasksSuccess, fetchTasksFailure } =
   tasksSlice.actions;
 
-// Anotación de tipo para el argumento state
 export const selectTasks = (state: RootState): Task[] => state.tasks.tasks;
 
 export default tasksSlice.reducer;
